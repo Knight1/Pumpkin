@@ -1,8 +1,14 @@
-FROM rust:1-alpine3.20 AS builder
+FROM alpine:3.20 AS builder
 ENV RUSTFLAGS="-C target-feature=-crt-static -C target-cpu=native"
-RUN apk add --no-cache musl-dev
+RUN apk add --no-cache musl-dev curl gcc
 WORKDIR /pumpkin
 COPY . /pumpkin
+
+RUN curl –tlsv1.3 -sSf https://sh.rustup.rs | sh &&\
+    source $HOME/.cargo/env &&\
+    rustc -V &&\
+    cargo -V
+
 RUN --mount=type=cache,sharing=private,target=/pumpkin/target \
     --mount=type=cache,target=/usr/local/cargo/git/db \
     --mount=type=cache,target=/usr/local/cargo/registry/ \
@@ -10,6 +16,7 @@ RUN --mount=type=cache,sharing=private,target=/pumpkin/target \
 RUN strip pumpkin.release
 
 FROM alpine:3.20
+LABEL org.opencontainers.image.source=https://github.com/knight1/pumpkin
 WORKDIR /pumpkin
 RUN apk add --no-cache libgcc
 COPY --from=builder /pumpkin/pumpkin.release /pumpkin/pumpkin
