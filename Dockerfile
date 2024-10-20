@@ -4,16 +4,17 @@ RUN apk add --no-cache musl-dev curl gcc
 WORKDIR /pumpkin
 COPY . /pumpkin
 
-RUN curl –tlsv1.3 -sSf https://sh.rustup.rs | sh &&\
+# Install Rust
+RUN curl --proto '=https' --tlsv1.3 -sSf https://sh.rustup.rs | sh -s -- -y &&\
     source $HOME/.cargo/env &&\
     rustc -V &&\
-    cargo -V
-
-RUN --mount=type=cache,sharing=private,target=/pumpkin/target \
-    --mount=type=cache,target=/usr/local/cargo/git/db \
-    --mount=type=cache,target=/usr/local/cargo/registry/ \
+    cargo -V &&\
+# Build Pumpkin
+    mount=type=cache,sharing=private,target=/pumpkin/target &&\
+    mount=type=cache,target=/usr/local/cargo/git/db &&\
+    mount=type=cache,target=/usr/local/cargo/registry/ &&\
     cargo build --release && cp target/release/pumpkin ./pumpkin.release
-RUN strip pumpkin.release
+RUN strip pumpkin.release && ls -lsah pumpkin.release
 
 FROM alpine:3.20
 LABEL org.opencontainers.image.source=https://github.com/knight1/pumpkin
