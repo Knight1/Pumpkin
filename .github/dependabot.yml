@@ -1,9 +1,3 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for more information:
-# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-# https://containers.dev/guide/dependabot
-
 version: 2
 updates:
  - package-ecosystem: "devcontainers"
@@ -12,5 +6,49 @@ updates:
      interval: weekly
  - package-ecosystem: "github-actions"
    directory: "/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-config/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-core/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-entity/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-inventory/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-macros/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-protocol/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-registry/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin-world/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "pumpkin/"
+   schedule:
+     interval: weekly
+ - package-ecosystem: "cargo"
+   directory: "fuzz/"
    schedule:
      interval: weekly
