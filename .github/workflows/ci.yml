@@ -41,8 +41,6 @@ jobs:
           platforms: |
             linux/amd64
             linux/arm64
-            linux/arm/v7
-            linux/riscv64
           push: true
           sbom: true
           provenance: mode=max
